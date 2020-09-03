@@ -1,12 +1,17 @@
 require([
     "esri/Map",
+    "esri/views/MapView",
+    "esri/layers/FeatureLayer",
+    "esri/layers/GraphicsLayer",
+    "esri/Graphic",
     "esri/views/SceneView"
-], function(Map, SceneView){
+], function(
+    Map, MapView, FeatureLayer, GraphicsLayer, Graphic, SceneView){
  let map = new Map({
      basemap: "topo-vector",
      ground: "world-elevation"//show elevation
  });
-
+ let sql = "TRL_NAME like '%Canyon%'";
  let view = new SceneView({
      container: "viewDiv",
      map: map,
@@ -19,4 +24,8 @@ require([
          tilt: 75 //perspective in degrees
      }
  });
+});
+
+view.when(function(){
+    queryFeatureLayerView(view.center, 1500,"intersects")
 });
